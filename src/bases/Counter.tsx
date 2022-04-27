@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-export const Counter = () => {
+export const Counter = ({initialValue=0}) => {
     
     const [counter, setCounter] = useState(5)
 
