@@ -35,10 +35,10 @@ const counterReducer = (state: CounterState, action: counterAction): CounterStat
 
 export const CounterReducerComponent = () => {
 
-    const [State, dispatch] = useReducer(reducer, INICIAL_STATE);
+    const [{counter}, dispatch] = useReducer(counterReducer, INICIAL_STATE);
 
     const handleClick = () => {
-        setCounter(prev => prev + 1)
+        dispatch({type:'reset'})
     }
 
     return (
@@ -46,7 +46,7 @@ export const CounterReducerComponent = () => {
             <h1>Counter Reducer: {counter}</h1>
 
             <button onClick={handleClick}>
-                +1
+                Reset
             </button>
         </>
     )
