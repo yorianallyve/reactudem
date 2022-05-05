@@ -1,79 +1,77 @@
 import { useReducer } from "react"
 
 interface CounterState {
-    counter: number;
-    previus: number;
-    changes: number
+    counter : number;
+    previous: number;
+    changes : number;
 }
 
-const INICIAL_STATE = {
+
+const INITIAL_STATE: CounterState = {
     counter: 0,
-    previus: 0,
+    previous: 0,
     changes: 0
 }
 
-type CounterAction =
+type CounterAction = 
     | { type: 'increaseBy', payload: { value: number; } }
-    | { type: 'reset' }
+    | { type: 'reset' };
 
+const counterReducer = ( state:CounterState, action:CounterAction ): CounterState => {
 
-const counterReducer = (state: CounterState, action: CounterAction): CouterState => {
-    const {counter, changes}=state
-    switch (action.type) {
-        case'reset':
+    const { counter, changes } = state;
 
+    switch ( action.type ) {
+        case 'reset':
             return {
+                changes: 0, 
                 counter: 0,
-                previus: 0,
-                changes: 0
-            };
-
-            case 'increaseBy':
-                return{
-                    changes: state.changes +1,
-                    counter: state.counter +action.payload.value,
-                    previus: state.counter
-                }
-
+                previous: 0,
+            }      
+            
+        case 'increaseBy':
+            return {
+                changes: changes + 1,
+                counter: counter + action.payload.value,
+                previous: counter
+            }
+    
         default:
             return state;
     }
-
 }
+
+
 
 export const CounterReducerComponent = () => {
 
-    const [{couterState}, dispatch] = useReducer(counterReducer, INICIAL_STATE);
+    const [ counterState, dispatch] = useReducer( counterReducer, INITIAL_STATE );
 
-    const handleClick = () => {
-        dispatch({type:'reset'})
+    const handleReset = () => {
+        dispatch({ type: 'reset' })
     }
 
-    const increaseBy = (value:number) => {
-        dispatch({type:'increaseBy', payload:{value}});
+    const increaseBy = ( value: number ) => {
+        dispatch({ type: 'increaseBy', payload: { value } });
     }
 
     return (
         <>
-            <h1>Counter Reducer</h1>
+            <h1>Counter Reducer</h1>   
             <pre>
-                {JSON.stringify(couterState, null,2)}
+                { JSON.stringify( counterState, null, 2 ) }
             </pre>
 
-            <button onClick={() => increaseBy(1)}>
+            <button onClick={ () => increaseBy(1) }>
                 +1
             </button>
-
-            <button onClick={() => increaseBy(5)}>
+            <button onClick={ () => increaseBy(5) }>
                 +5
             </button>
-
-            
-            <button onClick={() => increaseBy(10)}>
+            <button onClick={ () => increaseBy(10) }>
                 +10
             </button>
-
-            <button onClick={handleClick}>
+            <button onClick={ handleReset }>
                 Reset
             </button>
         </>
